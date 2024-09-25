@@ -78,6 +78,12 @@
 		font-size: 24px;
 		font-family: 'Rubik', sans-serif;
 	}
+	.contacts{
+		margin-bottom: -100px;
+	}
+	.as-social{
+		margin-bottom: 150px;
+	}
 	@media (max-width: 700px) {
 		.hero h1 {
 			font-size: 60px;
@@ -118,6 +124,11 @@
 			width: 50;
 			height: 50;
 		}
-
+		.contacts{
+			margin-bottom: 0px;
+		}
+		.as-social{
+			margin-bottom: 0px;
+		}
 
 	}
