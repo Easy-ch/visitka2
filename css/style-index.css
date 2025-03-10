@@ -8,6 +8,15 @@
 		color: white;
 		text-align: center;
 	}
+
+	#custom{
+		grid-template-columns: 1fr 1fr 1 fr;
+	}
+
+	#map{
+		margin-top: 0;
+	}
+
 	.hero::before {
             content: "";
             position: absolute;
@@ -135,5 +144,10 @@
 		.as-social{
 			margin-bottom: 0px;
 		}
+
+		#map{
+			margin-top: 10px;
+		}
+	
 
 	}
