@@ -1,8 +1,8 @@
-from fastapi import Request, APIRouter, status, Depends, HTTPException, Query
+from fastapi import Request, APIRouter, status, Depends, HTTPException
 from fastapi.templating import Jinja2Templates
 from db import get_db
 from models import Product
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse,FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
@@ -26,3 +26,13 @@ async def catalog(request: Request, db: AsyncSession = Depends(get_db)):
         "request": request,
         "products": products,
     })
+
+
+@router.get("/robots.txt",response_class=FileResponse)
+async def robots():
+    return FileResponse('../../visitka2/robots.txt')
+
+
+@router.get("/sitemap.xml",response_class=FileResponse)
+async def sitemap():
+    return FileResponse('../../visitka2/sitemap.xml')
