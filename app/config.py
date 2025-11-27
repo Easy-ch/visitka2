@@ -12,3 +12,6 @@ def load_secret_data():
 
 
 SECRET_KEY = load_secret_data()
+
+TOKEN = '8226438455:AAF0zWRJdRZwz8yhff7HT2iMotmc-VXbmvo'
+CHAT_IDS = ['5034422722']

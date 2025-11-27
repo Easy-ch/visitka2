@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html  lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админпанель - Управление товарами</title>
+    <link rel="stylesheet" href="../static/css/admin_profile.css">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.0/dist/css/uikit.min.css">
+</head>
+<body>
+    <style>
+        .init{
+            border-radius:5px; 
+            padding: 10px; 
+            background-color: #1e87f0; 
+            color: white; 
+            font-size: 20px;
+            border: none; 
+            cursor: pointer;  
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+        .init:hover{
+            color: #04203b;
+        }
+        .danger-message{
+            margin-inline:300px;
+            background-color: rgb(221, 40, 40);
+        }
+        .btn{
+            margin-top: 15px;
+        }
+    </style>
+    <section style="height: 100%;">
+        <h1 style="color: white;">Управление товарами</h1>
+        <div class="uk-width-1-1">
+            <a href="/arhremprint_admin" style="border-radius: 10px;  margin-left: 20px; background-color: black;" class="uk-button uk-button-primary">Назад</a>
+        </div>
+        <div style="height: 100%;">
+            <!-- Форма создания товара -->
+            <div>
+                    <h2 style="text-align: center; margin-bottom: 10px;">Добавить новый товар</h2>
+                    <div>
+                        <form id="create_product" class="uk-form-stacked" enctype="multipart/form-data">
+                            <!-- Блок загрузки изображений -->
+                            <div class="uk-margin">
+                                <label class="uk-form-label">Изображения товара:</label>
+                                <div class="js-upload uk-placeholder uk-text-center uk-padding-small" style="width: calc(100% - 32px);" uk-form-custom>
+                                    <input style="height: 100% !important; width: 100%;" type="file" name="images" id="file-input" accept="image/*" multiple required>
+                                    <span uk-icon="icon: cloud-upload; ratio: 2"></span>
+                                    <span class="uk-text-middle">Перетащите изображения сюда или</span>
+                                    <div>
+                                        <span class="uk-link">выберите один</span>
+                                    </div>
+                                </div>
+
+                                <div id="file-name-display" class="uk-text-meta uk-margin-small-top"></div>
+                                <div id="preview-container" class="uk-grid-small uk-child-width-1-4 uk-margin-top" uk-grid></div>
+                            </div>
+
+                            <!-- Основная информация -->
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-3-4">
+                                    <label class="uk-form-label">Название:</label>
+                                    <input class="uk-input" type="text" name="name" id="name_product" required>
+                                </div>
+                            </div>
+                                    <!-- Категория и цена -->
+                            <div class="uk-grid-small" uk-grid>
+                                <!-- Цена -->
+                                <div class="uk-width-1-4">
+                                    <label class="uk-form-label">Цена:</label>
+                                    <div class="uk-inline">
+                                        <span class="uk-form-icon" uk-icon="icon: tag"></span>
+                                        <input class="uk-input" type="number" step="0.01" name="price" id="price_product" required 
+                                            min="0" placeholder="0.00">
+                                    </div>
+                                </div>
+                                
+                                <!-- Наличие -->
+                                <div class="uk-width-1-4">
+                                    <label for="is_available_product" class="uk-form-label">Наличие:</label>
+                                    <div class="uk-form-controls" style="margin-top: 3px;">
+                                        <label style="white-space: nowrap;"><input class="uk-checkbox" type="checkbox" name="is_available" id="is_available_product" checked><span class="is_available_product_text"> В наличии</span></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Описания -->
+                            <div class="uk-margin">
+                                <label class="uk-form-label">Описание:</label>
+                                <textarea class="uk-textarea" name="description" id="description_product" rows="3"></textarea>
+                            </div>
+
+                            <div class="uk-margin">
+                                <label class="uk-form-label">Характеристики (каждая с новой строки):</label>
+                                <textarea class="uk-textarea" name="specifications" id="specifications_product" rows="5"></textarea>
+                            </div>
+
+                            <div class="uk-width-4-4">
+                                <label for="advantages_product" class="uk-form-label">Преимущества (опционально):</label>
+                                <textarea class="uk-textarea" name="advantages" id="advantages_product"></textarea>
+                            </div>
+                            <!-- Кнопки управления -->
+                            <div class="uk-flex uk-flex-between">
+                                <button class="uk-button uk-button-default btn" type="reset">
+                                    <span uk-icon="trash"></span> Очистить
+                                </button>
+                                <button class="uk-button uk-button-primary btn"  type="submit">
+                                    <span uk-icon="plus"></span> Добавить товар
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+        </div>             
+    </section>
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.0/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.0/dist/js/uikit-icons.min.js"></script>
+    
+    <!-- Кастомные скрипты -->
+    <!-- <script src="../static/js/admin_product_management.js"></script> -->
+    <script  src="/static/js/add_product.js" type="module"></script>
+</body>
+</html>

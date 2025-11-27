@@ -10,6 +10,8 @@ from models import SuperUser
 from sqlalchemy import select
 from db import async_engine
 import logging
+from sqladmin import BaseView, expose,ModelView
+from sqlalchemy.orm import selectinload
 
 
 
@@ -57,3 +59,39 @@ class AdminAuth(AuthenticationBackend):
         return True
 
 authentication_backend = AdminAuth(secret_key=SECRET_KEY)
+
+
+class AddProduct(BaseView):
+    name = "Добавление товара"
+    icon = "fa-solid fa-plus"
+
+    @expose("/add_product", methods=["GET"])
+    async def add_product_form(self, request):
+        async with AsyncSession(async_engine) as db:
+                return await self.templates.TemplateResponse(request, "add_product.html")
+
+
+class ProductAdmin(ModelView, model=Product):
+    icon = "fa-solid fa-product-hunt"
+    can_create = False
+    can_edit = False
+    # can_delete = False
+    name = "Товар"
+    name_plural = "Товары"
+    column_searchable_list = [Product.name]
+    column_sortable_list = [Product.price]
+    column_list = [Product.name,Product.description,Product.specifications,Product.advantages,Product.is_available,Product.price]
+    
+    column_details_list = [
+        Product.description,
+        Product.specifications
+    ]
+
+    column_labels = {
+        "name": "Название",
+        "description": "Описание",
+        "price": "Цена",
+        "is_available": "Доступен",
+        "specifications": "Характеристики",
+        "advantages": "Преимущества"
+    }

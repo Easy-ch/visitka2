@@ -8,10 +8,12 @@ from fastapi.staticfiles import StaticFiles
 import uvicorn
 import logging
 from sqladmin import Admin
-from admin import authentication_backend
+from admin import authentication_backend,AddProduct,ProductAdmin
 from fastapi.middleware.cors import CORSMiddleware
 from routers.pages_router import router
-# from admin import authentication_backend
+from routers.admin_request import admin_router
+from routers.user_router import user_router
+
 
 
 # class StaticFilesWithoutCaching(StaticFiles):
@@ -39,7 +41,12 @@ green = "\033[32m"
 reset = "\033[0m"
 
 app.include_router(router)
+app.include_router(admin_router)
+app.include_router(user_router)
 
+
+admin.add_view(AddProduct)
+admin.add_view(ProductAdmin)
 
 origins = [
     # "http://localhost",

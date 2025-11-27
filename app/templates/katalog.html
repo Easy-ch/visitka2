@@ -53,16 +53,19 @@
                             <img src='/static/img/logo.png' alt="Логотип компании Архремпринт" width="100" height="100">
                             <ul class="uk-navbar-nav"> <!--  uk-visible@m -->
                                 <li class="nav-item">
-                                    <a class="nav-link uk-button-text" href="#main">Главная</a>
+                                    <a class="nav-link uk-button-text" href="/">Главная</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link uk-button-text" href="#services">Услуги</a>
+                                    <a class="nav-link uk-button-text" href="/#services">Услуги</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link uk-button-text" href="#about-us">Обо мне</a>
+                                    <a class="nav-link uk-button-text" href="/#about-us">Обо мне</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link uk-button-text" href="#contacts">Контакты</a>
+                                    <a class="nav-link uk-button-text" href="/#contacts">Контакты</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link uk-button-text" href="/catalog">Каталог</a>
                                 </li>
                             </ul>
                         </div>
@@ -74,42 +77,43 @@
             <div class="popup-form-overlay" id="requestOverlay"></div>
 
             <div class="request-popup" id="requestPopup">
-        
-            <button class="close-popup">&times;</button>
-        
-            <div class="popup_form_content">
-        
-        
-                <h2>Отправить заявку</h2>
-        
-        
-                <form id="form-place-an-order" method="post">
-        
-                    <div class="form-group">
-                        <label for="user-name">Ваше имя <span class="required">*</span></label>
-                        <input id="user-name" type="text" required>
-                    </div>
-        
-                    <div class="form-group">
-                        <label for="number-phone">Номер телефона <span class="required">*</span></label>
-                        <input id="number-phone" type="tel" required>
-                    </div>
-        
-                    <div class="form-group">
-                        <label for="email">Электронная почта</label>
-                        <input id="email" type="email" autocomplete="email">
-                    </div>
-                    
-                    <div class="form-group" id="own-order-container">
-                        <label for="own_order">Комментарий (по желанию)</label>
-                        <Textarea name="own_order" id="own_order" placeholder="Пишите сюда"></Textarea>
-                    </div>
 
-                    <button type="submit" class="submit-btn">Отправить</button>
-                </form>
-        
+                <button class="close-popup">&times;</button>
+
+                <div class="popup_form_content">
+
+
+                    <h2>Отправить заявку</h2>
+
+
+                    <form id="form-place-an-order" method="post">
+
+                        <div class="form-group">
+                            <label for="user-name">Ваше имя <span class="required">*</span></label>
+                            <input id="user-name" type="text" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="number-phone">Номер телефона <span class="required">*</span></label>
+                            <input id="number-phone" type="tel" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Электронная почта</label>
+                            <input id="email" type="email" autocomplete="email">
+                        </div>
+
+                        <div class="form-group" id="own-order-container">
+                            <label for="own_order">Комментарий (по желанию)</label>
+                            <Textarea name="own_order" id="own_order" placeholder="Пишите сюда"></Textarea>
+                        </div>
+
+                        <button type="submit" onclick="send_order()" class="submit-btn">Отправить</button>
+                    </form>
+
+                    <p class="text-notification"></p>
+                </div>
             </div>
-        </div>
 
     </header>
 
@@ -118,137 +122,57 @@
         <h2 class="style">Наши товары</h2>
 
         <div class="container">
-
+            {% if products %}
+            {% for product in products %}
             <div class="project-card">
-                <h3>Принтер 001</h3>
-            
+                <h3>{{ product.name }}</h3>
+
                 <div class="product_slider">
+                    {% if product.images %}
+                    {% for image in product.images %}
+                    <div class="slide {% if loop.first %}active{% endif %}">
+                        <img class="foto" src="/{{ image.image_path }}" alt="{{ product.name }}">
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <!-- Заглушка если нет изображений -->
                     <div class="slide active">
-                        <img class="foto" src="/static/img/test_img/bb015_01.jpg" alt="Принтер 001">
+                        <img class="foto" src="/static/img/test_img/bb015_01.jpg" alt="{{ product.name }}">
                     </div>
-                    <div class="slide">
-                        <img class="foto" src="/static/img/test_img/bb015_02.jpg" alt="Принтер 001">
-                    </div>
-                    <div class="slide">
-                        <img class="foto" src="/static/img/test_img/bb015_11.jpg" alt="Принтер 001">
-                    </div>
+                    {% endif %}
+
                     <button class="slider-prev">🡸</button>
                     <button class="slider-next">🡺</button>
                 </div>
 
                 <ul>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
+                    <li><span>Описание:</span>
+                        <p>{{ product.description or "Описание отсутствует" }}</p>
+                    </li>
+                    <li><span>Характеристики:</span>
+                        <p>{{ product.specifications or "Характеристики отсутствуют" }}</p>
+                    </li>
+                    <li><span>Преимущества:</span>
+                        <p>{{ product.adventages or "Преимущества отсутствуют" }}</p>
+                    </li>
                 </ul>
-                <div class="price">от 21 000 ₽</div>
-                <a class="btn-details btn_send" href="#">Узнать больше</a>
-            </div>
 
-            <div class="project-card">
-                <h3>Принтер 002</h3>
-            
-                <div class="product_slider">
-                    <div class="slide active">
-                        <img class="foto" src="/static/img/test_img/bb015_01.jpg" alt="Принтер 001">
-                    </div>
-                    <div class="slide">
-                        <img class="foto" src="/static/img/test_img/bb015_02.jpg" alt="Принтер 001">
-                    </div>
-                    <div class="slide">
-                        <img class="foto" src="/static/img/test_img/bb015_11.jpg" alt="Принтер 001">
-                    </div>
-                    <button class="slider-prev">🡸</button>
-                    <button class="slider-next">🡺</button>
+                <div class="price">
+                    {% if product.price %}
+                    {{ "%.2f"|format(product.price) }}₽
+                    {% else %}
+                    Цена не указана
+                    {% endif %}
                 </div>
-            
-                <ul>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                </ul>
-                <div class="price">от 21 000 ₽</div>
-                <a class="btn-details btn_send" href="#">Узнать больше</a>
-            </div>
 
-            <div class="project-card">
-                <h3>Принтер 003</h3>
-            
-                <div class="product_slider">
-                    <div class="slide active">
-                        <img class="foto" src="/static/img/test_img/bb015_01.jpg" alt="Принтер 001">
-                    </div>
-                    <div class="slide">
-                        <img class="foto" src="/static/img/test_img/bb015_02.jpg" alt="Принтер 001">
-                    </div>
-                    <div class="slide">
-                        <img class="foto" src="/static/img/test_img/bb015_11.jpg" alt="Принтер 001">
-                    </div>
-                    <button class="slider-prev">🡸</button>
-                    <button class="slider-next">🡺</button>
-                </div>
-            
-                <ul>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                </ul>
-                <div class="price">от 21 000 ₽</div>
-                <a class="btn-details btn_send" href="#">Узнать больше</a>
+                <a class="btn-details btn_send" onclick="openOrderForm('{{product.name}}')"   href="/product/{{ product.id }}">Узнать больше</a>
             </div>
-
-             <div class="project-card">
-                <h3>Принтер 004</h3>
-            
-                <div class="product_slider">
-                    <div class="slide active">
-                        <img class="foto" src="/static/img/test_img/bb015_01.jpg" alt="Принтер 001">
-                    </div>
-                    <div class="slide">
-                        <img class="foto" src="/static/img/test_img/bb015_02.jpg" alt="Принтер 001">
-                    </div>
-                    <div class="slide">
-                        <img class="foto" src="/static/img/test_img/bb015_11.jpg" alt="Принтер 001">
-                    </div>
-                    <button class="slider-prev">🡸</button>
-                    <button class="slider-next">🡺</button>
-                </div>
-            
-                <ul>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                </ul>
-                <div class="price">от 21 000 ₽</div>
-                <a class="btn-details btn_send" href="#">Узнать больше</a>
+            {% endfor %}
+            {% else %}
+            <div class="no-products">
+                <p>Товары не найдены</p>
             </div>
-
-             <div class="project-card">
-                <h3>Принтер 005</h3>
-            
-                <div class="product_slider">
-                    <div class="slide active">
-                        <img class="foto" src="/static/img/test_img/bb015_01.jpg" alt="Принтер 001">
-                    </div>
-                    <div class="slide">
-                        <img class="foto" src="/static/img/test_img/bb015_02.jpg" alt="Принтер 001">
-                    </div>
-                    <div class="slide">
-                        <img class="foto" src="/static/img/test_img/bb015_11.jpg" alt="Принтер 001">
-                    </div>
-                    <button class="slider-prev">🡸</button>
-                    <button class="slider-next">🡺</button>
-                </div>
-            
-                <ul>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                    <li><span>Тест хар-ки:</span> <p>if</p></li>
-                </ul>
-                <div class="price">от 21 000 ₽</div>
-                <a class="btn-details btn_send" href="#">Узнать больше</a>
-            </div>
-
+            {% endif %}
         </div>
 
     </main>
@@ -358,5 +282,6 @@
 
 <script src="/static/js/katalog-slider.js"></script>
 <script src="/static/js/form_popup.js"></script>
+<script defer src="/static/js/send_order.js" ></script>
 
 </html>
