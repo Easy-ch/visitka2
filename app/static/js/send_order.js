@@ -50,7 +50,7 @@ async function send_order() {
 
         try {
             isFormBlocked = true;
-            const blockUntil = Date.now() + 3 * 60 * 1000; 
+            const blockUntil = Date.now() + 1.5 * 60 * 1000;   
             localStorage.setItem('formBlockedUntil', blockUntil.toString());
             updateFormState();
 
@@ -63,7 +63,7 @@ async function send_order() {
 
             if (response.ok) {
                 UIkit.notification({
-                    message: '<p class="text-notification">Заказ успешно оформлен. Мы свяжемся с вами в ближайшее время. Следующий заказ можно будет отправить через 3 минуты.</p>',
+                    message: '<p class="text-notification">Заказ успешно оформлен. Мы свяжемся с вами в ближайшее время. Следующий заказ можно будет отправить через 1.5 минуты.</p>',
                     status: 'success',
                     pos: 'top-center',
                     timeout: 10000

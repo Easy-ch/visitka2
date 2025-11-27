@@ -19,9 +19,9 @@ async def catalog(request: Request, db: AsyncSession = Depends(get_db)):
     query = select(Product)
     result = await db.execute(query)
     products = result.scalars().all()
-    
+
     if not products:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
+        return {"products": [], "message": "Товары не найдены"}
     return templates.TemplateResponse("katalog.html", {
         "request": request,
         "products": products,
