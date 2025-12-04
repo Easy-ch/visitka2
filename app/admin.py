@@ -74,7 +74,7 @@ class AddProduct(BaseView):
 class ProductAdmin(ModelView, model=Product):
     icon = "fa-solid fa-product-hunt"
     can_create = False
-    can_edit = False
+    can_edit = True
     # can_delete = False
     name = "Товар"
     name_plural = "Товары"
@@ -86,6 +86,8 @@ class ProductAdmin(ModelView, model=Product):
         Product.description,
         Product.specifications
     ]
+
+    form_excluded_columns = ['images']
 
     column_labels = {
         "name": "Название",

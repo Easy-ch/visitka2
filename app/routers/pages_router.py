@@ -19,9 +19,12 @@ async def catalog(request: Request, db: AsyncSession = Depends(get_db)):
     query = select(Product)
     result = await db.execute(query)
     products = result.scalars().all()
+    type(products)
 
     if not products:
-        return {"products": [], "message": "Товары не найдены"}
+        return templates.TemplateResponse("katalog.html", {
+        "request": request})
+    
     return templates.TemplateResponse("katalog.html", {
         "request": request,
         "products": products,

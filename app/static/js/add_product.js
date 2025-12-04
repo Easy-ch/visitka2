@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     if (typeof UIkit === 'undefined') {
         console.error('UIkit не загружен');
         return;
@@ -41,16 +41,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             </div>
                         `;
-                        
+
                         previewContainer.appendChild(previewItem);
-                        
+
                         previewItem.querySelector('.remove-image').addEventListener('click', () => {
                             previewItem.remove();
                             selectedFiles = selectedFiles.filter(f => f !== file);
                             updateFileInput();
-                            UIkit.notification(`Изображение ${file.name} удалено`, {status: 'success'});
+                            UIkit.notification(`Изображение ${file.name} удалено`, { status: 'success' });
                         });
-                        
+
                         resolve();
                     };
                     reader.readAsDataURL(file);
@@ -66,10 +66,10 @@ document.addEventListener('DOMContentLoaded', function() {
             uploadInput.addEventListener('change', async (event) => {
                 try {
                     const files = Array.from(event.target.files);
-                    
+
                     const invalidFiles = files.filter(file => !file.type.startsWith('image/'));
                     if (invalidFiles.length > 0) {
-                        UIkit.notification('Пожалуйста, загружайте только изображения', {status: 'danger'});
+                        UIkit.notification('Пожалуйста, загружайте только изображения', { status: 'danger' });
                         return;
                     }
 
@@ -79,11 +79,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             await createImagePreview(file);
                         }
                     }
-                    
+
                     updateFileInput();
                 } catch (error) {
                     console.error('Ошибка при обработке файлов:', error);
-                    UIkit.notification('Ошибка при загрузке изображений', {status: 'danger'});
+                    UIkit.notification('Ошибка при загрузке изображений', { status: 'danger' });
                 }
             });
 
@@ -93,33 +93,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 uploadInput.value = '';
             });
 
-           form.addEventListener('submit', async function(event) {
+            form.addEventListener('submit', async function (event) {
                 event.preventDefault();
-                
+
                 try {
                     // 1. Проверяем обязательные поля перед отправкой
                     const price = parseFloat(document.getElementById('price_product').value);
                     if (isNaN(price)) {
                         throw new Error('Укажите корректную цену');
                     }
-                    
-                    if (selectedFiles.length === 0) {
-                        throw new Error('Добавьте хотя бы одно изображение');
+                    if (selectedFiles.length > 0) {
+                        selectedFiles.forEach((file, index) => {
+                            formData.append('images', file);  // Важно: 'images' во множественном числе
+                        });
                     }
-
                     // 2. Создаем FormData и добавляем все поля
                     const formData = new FormData(form);
-                            // 3. Добавляем остальные поля с правильными типами
+                    // 3. Добавляем остальные поля с правильными типами
                     formData.append('name', document.getElementById('name_product').value);
                     formData.append('description', document.getElementById('description_product').value);
                     formData.append('specifications', document.getElementById('specifications_product').value);
-                    
+
                     // Числовые поля преобразуем явно
                     formData.append('price', parseFloat(document.getElementById('price_product').value).toString());
-                    
+
                     // Булево значение преобразуем правильно
                     formData.append('is_available', document.getElementById('is_available_product').checked.toString());
-                    
+
                     formData.append('advantages', document.getElementById('advantages_product').value || '');
                     // 6. Отладочный вывод
                     console.log('Отправляемые данные:');
@@ -140,13 +140,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
 
                     const result = await response.json();
-                    UIkit.notification('Товар успешно добавлен!', {status: 'success'});
-                    
+                    UIkit.notification('Товар успешно добавлен!', { status: 'success' });
+
                     // 9. Очистка формы
                     form.reset();
                     previewContainer.innerHTML = '';
                     selectedFiles = [];
-                    
+
                 } catch (error) {
                     console.error('Ошибка:', error);
                     UIkit.notification(error.message, {
@@ -158,12 +158,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         } catch (error) {
             console.error('Ошибка инициализации формы:', error);
-            UIkit.notification('Ошибка загрузки формы добавления товара', {status: 'danger'});
+            UIkit.notification('Ошибка загрузки формы добавления товара', { status: 'danger' });
         }
     };
 
 
-        // Инициализация всех компонентов
+    // Инициализация всех компонентов
     const initAll = () => {
         initProductForm();
     };
